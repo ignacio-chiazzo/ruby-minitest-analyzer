@@ -1,7 +1,33 @@
 require "minitest/autorun"
 require 'table_print'
 
-class SetupInitializerAbstract
+# Instructions
+
+# 1) Copy and paste the analyzer file into a file in your app.
+# 2) Implement a MinitestAnalyzerConfig class like this
+
+# class MinitestAnalyzerConfig < MinitestAnalyzerConfigAbstract
+#   protected
+
+#   def test_classes
+#     Rails.root.join("components/products/test/**/*.rb").flat_map do |test_file|
+#       Dir[test_file]
+#     end
+#   end
+
+#   def required_classes
+#     [
+#       "../../../test/test_helper"
+#     ]
+#   end
+# end
+
+# 3) Run the analyzer file in your console:
+
+# > ruby minitest_analyzer.rb
+
+
+class MinitestAnalyzerConfigAbstract
   def setup
     print_tests_stats do
       require_all_test_files
@@ -10,13 +36,13 @@ class SetupInitializerAbstract
 
   protected
 
+  # Returns an array of String containing all the tests classes. E.g:
+  # Dir["test/**/*.rb"]
   def test_classes
-    # returns all the tests classes in an array. E.g:
-    # Dir["test/**/*.rb"]
     raise NotImplementedError, "test_classes must be implemented"
   end
 
-  # returns all classes required to run the tests. E.g.
+  # Returns an array of String containing all the required classes to run the tests. E.g.
   # ["../../../test/test_helper"]
   def required_classes
     raise NotImplementedError, "required_classes must be implemented"
@@ -50,7 +76,7 @@ class SetupInitializerAbstract
   end
 end
 
-class SetupInitializer < SetupInitializerAbstract
+class MinitestAnalyzerConfig < MinitestAnalyzerConfigAbstract
   protected
 
   def test_classes
@@ -104,7 +130,15 @@ class TestSummaryPresenter
     puts "-" * 50
     puts "\nClasses that run the tests multiple times: \n\n"
 
-    list = @duplicated_suites.map { |klass_name, summary| summary }
+    print_table_stats
+    puts "*" * 50
+    puts "\n\n"
+  end
+
+  private
+
+  def print_table_stats
+    ()list = @duplicated_suites.map { |klass_name, summary| summary }
     tp.set :max_width, 40
     tp(
       list,
@@ -114,12 +148,9 @@ class TestSummaryPresenter
       "extra_tests_executions_count",
       "klass"
     )
-    puts "*" * 50
-    puts "\n\n"
   end
 
-  private
-
+  # Calculates all the extra tests that might be removed.
   def total_extra_tests_across_suites
     @duplicated_suites.sum { |klass, info| info.extra_tests_executions_count  }
   end
@@ -132,6 +163,11 @@ class MinitestsAnalyzer < Minitest::Test
       duplicated_suites = {}
 
       minitest_classes.each_with_index do |child_a|
+
+        child_a_runnable_tests = tests_methods(child_a)
+        # If the parent doesn't have any runnable test then it does not have duplicated.
+        next unless child_a_runnable_tests.count > 0
+
         child_a.ancestors.each do |ancestor_a|
           # ancestor_a
           #   child_a
@@ -142,13 +178,11 @@ class MinitestsAnalyzer < Minitest::Test
           next unless minitest_classes.include?(ancestor_a)
 
           ancestor_a_runnable_tests = tests_methods(ancestor_a)
-          child_a_runnable_tests = tests_methods(child_a)
 
-          # If the parent or child don't have any runnable test then they don't have duplicated.
+          # If the parent doesn't have any runnable test then it does not have duplicated.
           next unless ancestor_a_runnable_tests.count > 0
-          next unless child_a_runnable_tests.count > 0
 
-          # ancestor_a and child_a have also runnable tests, there are duplicated tests.
+          # ancestor_a and child_a have runnable tests, there are duplicated tests.
           if duplicated_suites[ancestor_a.name]
             info = duplicated_suites[ancestor_a.name]
             info.extra_executions_run += 1
@@ -187,7 +221,7 @@ class MinitestsAnalyzer < Minitest::Test
 end
 
 # Load all the tests
-SetupInitializer.new.setup
+MinitestAnalyzerConfig.new.setup
 
 puts "Running"
 duplicated_suites_data = MinitestsAnalyzer.analyze
