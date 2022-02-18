@@ -1,4 +1,5 @@
 require_relative 'product_grand_parent_test'
+require_relative "../models/product"
 
 class ProductParentTest < ProductGrandParentTest
   def setup
@@ -6,7 +7,6 @@ class ProductParentTest < ProductGrandParentTest
   end
 
   def test_can_create_product
-    # puts __method__
     product = Product.new("sock", 1)
     assert("sock", product.title)
     assert(1, product.price)
