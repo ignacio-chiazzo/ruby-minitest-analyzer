@@ -1,7 +1,6 @@
 require "minitest/autorun"
 require 'table_print'
 require "set"
-require "pry" # TODO: DELETE
 
 # Instructions
 
@@ -11,7 +10,7 @@ require "pry" # TODO: DELETE
 # > ruby minitest_analyzer.rb
 
 REQUIRED_CLASSES = [] # ["../../../test/test_helper"],
-TEST_FILE_LOCATIONS = ["tests/tests_classes/*.rb"] # [Rails.root.join("components/billing/test/**/*.rb")]
+TEST_FILE_LOCATIONS = ["tests/tests_classes/*.rb"]
 
 class MinitestAnalyzerConfigAbstract
   def setup
