@@ -1,31 +1,17 @@
 require "minitest/autorun"
 require 'table_print'
+require "set"
+require "pry" # TODO: DELETE
 
 # Instructions
 
 # 1) Copy and paste the analyzer file into a file in your app.
-# 2) Implement a MinitestAnalyzerConfig class like this
-
-# class MinitestAnalyzerConfig < MinitestAnalyzerConfigAbstract
-#   protected
-
-#   def test_classes
-#     Rails.root.join("components/products/test/**/*.rb").flat_map do |test_file|
-#       Dir[test_file]
-#     end
-#   end
-
-#   def required_classes
-#     [
-#       "../../../test/test_helper"
-#     ]
-#   end
-# end
-
+# 2) Modify the tests paths in the MinitestAnalyzerConfigurator object. If you need to tweak the configuration, take a look at MinitestAnalyzerConfig class
 # 3) Run the analyzer file in your console:
-
 # > ruby minitest_analyzer.rb
 
+REQUIRED_CLASSES = [] # ["../../../test/test_helper"],
+TEST_FILE_LOCATIONS = ["tests/tests_classes/*.rb"] # [Rails.root.join("components/billing/test/**/*.rb")]
 
 class MinitestAnalyzerConfigAbstract
   def setup
@@ -60,10 +46,11 @@ class MinitestAnalyzerConfigAbstract
   end
 
   def print_tests_stats(&block)
+    puts "-" * 15 + "Setting up" + "-" * 15
     puts "Requiring files..."
     minitest_classes = yield
     print_analyzer_stats(minitest_classes)
-    puts "All files required!"
+    puts "-" * 15 + "Setup finished! Ready to analyze the tests" + "-" * 15 + "\n"
   end
 
   def print_analyzer_stats(minitest_classes)
@@ -86,15 +73,13 @@ class MinitestAnalyzerConfig < MinitestAnalyzerConfigAbstract
   end
 
   def required_classes
-    ["../../../test/test_helper"]
+    REQUIRED_CLASSES
   end
 
   private
 
   def test_files_locations
-    [
-      Rails.root.join("components/billing/test/**/*.rb")
-    ]
+    TEST_FILE_LOCATIONS
   end
 end
 
@@ -123,26 +108,21 @@ class TestSummaryPresenter
   end
 
   def present
-    puts "\n\n"
-    puts "*" * 50
-    puts "Total duplicated tests that can be removed: #{@total_extra_tests}"
-    puts "Total classes with duplicated tests: #{@total_extra_classes} "
-    puts "-" * 50
+    puts "* Total duplicated tests that can be removed: #{@total_extra_tests}"
+    puts "* Total classes with duplicated tests: #{@total_extra_classes} "
     puts "\nClasses that run the tests multiple times: \n\n"
-
     print_table_stats
-    puts "*" * 50
     puts "\n\n"
   end
 
   private
 
   def print_table_stats
-    ()list = @duplicated_suites.map { |klass_name, summary| summary }
+    list = @duplicated_suites.map { |klass_name, summary| summary }
     tp.set :max_width, 40
     tp(
       list,
-      { Class: lambda { |s| s.klass.name.demodulize } },
+      { Class: lambda { |s| s.klass.name } },
       "extra_executions_run",
       "runnable_tests_count",
       "extra_tests_executions_count",
@@ -223,7 +203,7 @@ end
 # Load all the tests
 MinitestAnalyzerConfig.new.setup
 
-puts "Running"
+puts "Analyzing!\n\n"
 duplicated_suites_data = MinitestsAnalyzer.analyze
 presenter = TestSummaryPresenter.new(duplicated_suites_data)
 presenter.present()
