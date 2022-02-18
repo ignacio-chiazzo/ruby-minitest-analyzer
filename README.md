@@ -1,6 +1,6 @@
 # Minitest Ruby redundant tests Analyzer
 
-Ruby analyzer that detects tests that are running multiple times. In some cases, we want them to run them twice, but most of the times we don't. 
+Ruby Minitests analyzer detects tests that are running multiple times. In some cases, we want them to run them twice, but most of the times we don't. 
 
 ### Example
 See the following case. 
