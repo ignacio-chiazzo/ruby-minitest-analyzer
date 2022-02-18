@@ -7,6 +7,7 @@ require "set"
 # 1) Copy and paste the analyzer file into a file in your app.
 # 2) Modify the tests paths in the MinitestAnalyzerConfigurator object. If you need to tweak the configuration, take a look at MinitestAnalyzerConfig class
 # 3) Run the analyzer file in your console:
+# 4) Install table_print `gem install table_print`
 # > ruby minitest_analyzer.rb
 
 REQUIRED_CLASSES = [] # ["../../../test/test_helper"],
