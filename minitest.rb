@@ -1,17 +1,19 @@
 require "minitest/autorun"
 require 'table_print'
 require "set"
+require "pry"
 
 # Instructions
 
 # 1) Copy and paste the analyzer file into a file in your app.
 # 2) Modify the tests paths in the MinitestAnalyzerConfigurator object. If you need to tweak the configuration, take a look at MinitestAnalyzerConfig class
 # 3) Run the analyzer file in your console:
-# 4) Install table_print `gem install table_print`
 # > ruby minitest_analyzer.rb
 
-REQUIRED_CLASSES = [] # ["../../../test/test_helper"],
-TEST_FILE_LOCATIONS = ["tests/tests_classes/*.rb"]
+REQUIRED_CLASSES = ["test/test_helper"] # ["../../../test/test_helper"],
+TEST_FILE_LOCATIONS = [
+  "test/**/*.rb",
+]
 
 class MinitestAnalyzerConfigAbstract
   def setup
@@ -37,11 +39,23 @@ class MinitestAnalyzerConfigAbstract
   private
 
   def require_all_test_files
-    required_classes.each { |f| require_relative(f) }
+    required_classes.each do |f| 
+      begin
+        require_relative(f)
+      rescue => e
+        "There was an error requiring the file: #{f}"
+        puts e
+      end
+    end
 
     test_classes.each do |f|
       next if f == current_location_source.first
-      require_relative(f)
+      begin
+        require_relative(f)
+      rescue => e
+        "There was an error requiring the file: #{f}"
+        puts e
+      end
     end
   end
 
@@ -122,7 +136,7 @@ class TestSummaryPresenter
     tp.set :max_width, 40
     tp(
       list,
-      { Class: lambda { |s| s.klass.name } },
+      { Class: lambda { |s| s.klass.name.demodulize } },
       "extra_executions_run",
       "runnable_tests_count",
       "extra_tests_executions_count",
@@ -208,4 +222,4 @@ duplicated_suites_data = MinitestsAnalyzer.analyze
 presenter = TestSummaryPresenter.new(duplicated_suites_data)
 presenter.present()
 Process.exit!
-puts "Finish"
+puts "Finish" 
