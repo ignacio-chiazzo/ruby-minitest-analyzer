@@ -1,19 +1,20 @@
 require "minitest/autorun"
 require 'table_print'
 require "set"
-require "pry"
 
 # Instructions
 
+# 1) Install table_print gem. It'll be used to print the stats in the console.
 # 1) Copy and paste the analyzer file into a file in your app in the root folder.
-# 2) Modify the tests paths in the MinitestAnalyzerConfigurator object. If you need to tweak the configuration, take a look at MinitestAnalyzerConfig class
-# 3) Run the analyzer file in your console:
-# > ruby minitest_analyzer.rb
-REQUIRED_CLASSES = ["test/test_helper"] # ["../../../test/test_helper"],
+# 2) Modify the tests paths in the global variables below. If you need to tweak the configuration, take a look at MinitestAnalyzerConfig class
+# 3) Run the analyzer file in your console e.g. (I named the file ruby_minitest_analyzer)
+# > ruby ruby_minitest_analyzer.rb
+
+REQUIRED_CLASSES = ["test/test_helper"]
 TEST_FILE_LOCATIONS = [
   "test/**/*.rb",
 ]
-EXEMPTED_TEST_FILE_LOCATIONS = ["app_templates/config/application.rb"] # File wihtin TEST_FILE_LOCATIONS that shouldn't be loaded.
+EXEMPTED_TEST_FILE_LOCATIONS = [] # File wihtin TEST_FILE_LOCATIONS are ignored by the analyzer.
 
 class MinitestAnalyzerConfigAbstract
   def setup
@@ -43,7 +44,6 @@ class MinitestAnalyzerConfigAbstract
       require_relative_file(f)
     end
 
-    # binding.pry
     test_classes.each do |f|
       next if f == current_location_source
       next if EXEMPTED_TEST_FILE_LOCATIONS.include?(f)
@@ -56,7 +56,6 @@ class MinitestAnalyzerConfigAbstract
     begin
       require_relative(f)
     rescue => e
-      binding.pry
       "There was an error requiring the file: #{f}"
       puts e
     end
