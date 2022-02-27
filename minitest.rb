@@ -5,15 +5,15 @@ require "pry"
 
 # Instructions
 
-# 1) Copy and paste the analyzer file into a file in your app.
+# 1) Copy and paste the analyzer file into a file in your app in the root folder.
 # 2) Modify the tests paths in the MinitestAnalyzerConfigurator object. If you need to tweak the configuration, take a look at MinitestAnalyzerConfig class
 # 3) Run the analyzer file in your console:
 # > ruby minitest_analyzer.rb
-
 REQUIRED_CLASSES = ["test/test_helper"] # ["../../../test/test_helper"],
 TEST_FILE_LOCATIONS = [
   "test/**/*.rb",
 ]
+EXEMPTED_TEST_FILE_LOCATIONS = ["app_templates/config/application.rb"] # File wihtin TEST_FILE_LOCATIONS that shouldn't be loaded.
 
 class MinitestAnalyzerConfigAbstract
   def setup
@@ -39,23 +39,26 @@ class MinitestAnalyzerConfigAbstract
   private
 
   def require_all_test_files
-    required_classes.each do |f| 
-      begin
-        require_relative(f)
-      rescue => e
-        "There was an error requiring the file: #{f}"
-        puts e
-      end
+    required_classes.each do |f|
+      require_relative_file(f)
     end
 
+    # binding.pry
     test_classes.each do |f|
-      next if f == current_location_source.first
-      begin
-        require_relative(f)
-      rescue => e
-        "There was an error requiring the file: #{f}"
-        puts e
-      end
+      next if f == current_location_source
+      next if EXEMPTED_TEST_FILE_LOCATIONS.include?(f)
+      
+      require_relative_file(f)
+    end
+  end
+
+  def require_relative_file(f)
+    begin
+      require_relative(f)
+    rescue => e
+      binding.pry
+      "There was an error requiring the file: #{f}"
+      puts e
     end
   end
 
@@ -73,7 +76,7 @@ class MinitestAnalyzerConfigAbstract
 
   def current_location_source
     # Returns the current file location
-    self.class.instance_method(:setup).source_location
+    self.class.instance_method(:setup).source_location&.first
   end
 end
 
@@ -214,12 +217,18 @@ class MinitestsAnalyzer < Minitest::Test
   end
 end
 
-# Load all the tests
-MinitestAnalyzerConfig.new.setup
+class MinitestAnalyzerRunner
+  def self.run!
+    # Load all the tests
+    MinitestAnalyzerConfig.new.setup
 
-puts "Analyzing!\n\n"
-duplicated_suites_data = MinitestsAnalyzer.analyze
-presenter = TestSummaryPresenter.new(duplicated_suites_data)
-presenter.present()
-Process.exit!
-puts "Finish" 
+    puts "Analyzing!\n\n"
+    duplicated_suites_data = MinitestsAnalyzer.analyze
+    presenter = TestSummaryPresenter.new(duplicated_suites_data)
+    presenter.present()
+    Process.exit!
+    puts "Finish"
+  end
+end
+
+MinitestAnalyzerRunner.run!
