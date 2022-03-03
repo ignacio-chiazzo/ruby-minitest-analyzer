@@ -12,11 +12,10 @@ require_relative "ruby_minitest_analyzer/test_summary_presenter"
 module RubyMinitestAnalyzer
   class Error < StandardError; end
   # Your code goes here...
-  
-  def self.run!
-    binding.pry
+
+  def self.run!(minitest_analyzer_config)
     # Load all the tests and required files such as test_helper.rb
-    MinitestAnalyzerConfig.new.setup
+    minitest_analyzer_config.setup
 
     # Analyze the data and print the results
     puts "Analyzing!\n\n"

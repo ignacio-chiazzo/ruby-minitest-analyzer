@@ -1,4 +1,24 @@
 class MinitestAnalyzerConfigAbstract
+
+  # TODO: Change locations for paths
+  def initialize(required_classes_paths: [], test_files_locations_paths: [], exempted_test_file_locations_paths: [])
+    @required_classes_paths = required_classes_paths
+    @test_files_locations_paths = test_files_locations_paths
+    @exempted_test_file_locations_paths = exempted_test_file_locations_paths
+  end
+
+  # An array of String containing the paths of all the required classes to run the tests.
+  # E.g. ["../../../test/test_helper"]
+  attr_reader :required_classes_paths
+
+  # An array of String containing the paths of all the tests classes.
+  # E.g: Dir["test/**/*.rb"]
+  attr_reader :test_files_locations_paths
+  
+  # An array of String containing the  paths for all the files within test_file_locations
+  # that are exempted from being required.
+  attr_reader :exempted_test_file_locations_paths
+
   def setup
     print_tests_stats do
       require_all_test_files
@@ -7,26 +27,15 @@ class MinitestAnalyzerConfigAbstract
 
   protected
 
-  # Returns an array of String containing all the tests classes. E.g:
-  # Dir["test/**/*.rb"]
-  def test_classes
-    raise NotImplementedError, "test_classes must be implemented"
-  end
-
-  # Returns an array of String containing all the required classes to run the tests. E.g.
-  # ["../../../test/test_helper"]
-  def required_classes
-    raise NotImplementedError, "required_classes must be implemented"
-  end
-
-  private
-
   def require_all_test_files
-    required_classes.each do |f|
+    # require required_classes
+    required_classes_paths.each do |f|
       require_relative_file(f)
     end
 
-    test_classes.each do |f|
+    # require test classes
+
+    test_classes_paths.each do |f|
       next if f == current_location_source
       next if EXEMPTED_TEST_FILE_LOCATIONS.include?(f)
       
@@ -34,12 +43,20 @@ class MinitestAnalyzerConfigAbstract
     end
   end
 
+  # def test_classes
+  #   test_files_locations.flat_map do |test_file|
+  #     Dir[test_file]
+  #   end
+  # end
+
+  private
+
   def require_relative_file(f)
     begin
       require_relative(f)
-    rescue => e
+    rescue LoadError => e
       "There was an error requiring the file: #{f}"
-      puts e
+      raise e
     end
   end
 
