@@ -1,3 +1,5 @@
+require 'table_print'
+
 class TestSummaryPresenter
   def initialize(duplicated_suites)
     @duplicated_suites = duplicated_suites
@@ -16,6 +18,11 @@ class TestSummaryPresenter
   private
 
   def print_table_stats
+    if @duplicated_suites.empty?
+      puts "Nice Job! No duplicated tests found!!!"
+      return
+    end
+
     list = @duplicated_suites.map { |klass_name, summary| summary }
     tp.set :max_width, 40
     tp(
