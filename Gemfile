@@ -11,5 +11,7 @@ group(:test) do
   gem('rubocop-minitest', '~> 0.17.2')
 end
 
+gem('table_print')
+
 # Specify your gem's dependencies in ruby_minitest_analyzer.gemspec
 gemspec
