@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'table_print'
 
 class TestSummaryPresenter
@@ -19,19 +21,19 @@ class TestSummaryPresenter
 
   def print_table_stats
     if @duplicated_suites.empty?
-      puts "Nice Job! No duplicated tests found!!!"
+      puts 'Nice Job! No duplicated tests found!!!'
       return
     end
 
-    list = @duplicated_suites.map { |klass_name, summary| summary }
+    list = @duplicated_suites.map { |_klass_name, summary| summary }
     tp.set :max_width, 40
     tp(
       list,
-      { Class: lambda { |s| demodulize_class(s) } },
-      "extra_executions_run",
-      "runnable_tests_count",
-      "extra_tests_executions_count",
-      "klass"
+      { Class: ->(s) { demodulize_class(s) } },
+      'extra_executions_run',
+      'runnable_tests_count',
+      'extra_tests_executions_count',
+      'klass'
     )
   end
 
@@ -46,6 +48,6 @@ class TestSummaryPresenter
 
   # Calculates all the extra tests that might be removed.
   def total_extra_tests_across_suites
-    @duplicated_suites.sum { |klass, info| info.extra_tests_executions_count  }
+    @duplicated_suites.sum { |_klass, info| info.extra_tests_executions_count }
   end
 end

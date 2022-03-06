@@ -1,5 +1,6 @@
-class MinitestAnalyzerConfigAbstract
+# frozen_string_literal: true
 
+class MinitestAnalyzerConfigAbstract
   # TODO: Change locations for paths
   def initialize(required_classes_paths: [], test_files_locations_paths: [], exempted_test_file_locations_paths: [])
     @required_classes_paths = required_classes_paths
@@ -14,7 +15,7 @@ class MinitestAnalyzerConfigAbstract
   # An array of String containing the paths of all the tests classes.
   # E.g: Dir["test/**/*.rb"]
   attr_reader :test_files_locations_paths
-  
+
   # An array of String containing the  paths for all the files within test_file_locations
   # that are exempted from being required.
   attr_reader :exempted_test_file_locations_paths
@@ -38,7 +39,7 @@ class MinitestAnalyzerConfigAbstract
     test_classes_paths.each do |f|
       next if f == current_location_source
       next if EXEMPTED_TEST_FILE_LOCATIONS.include?(f)
-      
+
       require_relative_file(f)
     end
   end
@@ -51,21 +52,19 @@ class MinitestAnalyzerConfigAbstract
 
   private
 
-  def require_relative_file(f)
-    begin
-      require_relative(f)
-    rescue LoadError => e
-      "There was an error requiring the file: #{f}"
-      raise e
-    end
+  def require_relative_file(file_path)
+    require_relative(file_path)
+  rescue LoadError => e
+    puts "There was an error requiring a file: #{file_path}"
+    raise e
   end
 
-  def print_tests_stats(&block)
-    puts "-" * 15 + "Setting up" + "-" * 15
-    puts "Requiring files..."
+  def print_tests_stats
+    puts "#{'-' * 15}Setting up#{'-' * 15}"
+    puts 'Requiring files...'
     minitest_classes = yield
     print_analyzer_stats(minitest_classes)
-    puts "-" * 15 + "Setup finished! Ready to analyze the tests" + "-" * 15 + "\n"
+    puts "#{'-' * 15}Setup finished! Ready to analyze the tests#{'-' * 15}\n"
   end
 
   def print_analyzer_stats(minitest_classes)

@@ -1,4 +1,6 @@
-require_relative "test_helper"
+# frozen_string_literal: true
+
+require_relative 'test_helper'
 
 class RubyMinitestAnalyzerTest < Minitest::Test
   def test_that_it_has_a_version_number
@@ -13,12 +15,12 @@ class RubyMinitestAnalyzerTest < Minitest::Test
   #   # test/test_helper.rb
   #   minitest_analyzer_config = MinitestAnalyzerConfig.new(
   #     required_classes_paths: [File.expand_path("test/test_helper.rb", __dir__)],
-  #     test_files_locations_paths: test_files_locations_paths, # 
+  #     test_files_locations_paths: test_files_locations_paths, #
   #     exempted_test_file_locations_paths: []
   #   )
 
   #   # TODO: For some reason it's not picking up the test files location.
-  
+
   #   ::RubyMinitestAnalyzer.run!(minitest_analyzer_config)
   # end
 
@@ -28,7 +30,7 @@ class RubyMinitestAnalyzerTest < Minitest::Test
   #   ::RubyMinitestAnalyzer.run!(config)
 
   #   # TODO: For some reason it's not picking up the test files location.
-  
+
   #   ::RubyMinitestAnalyzer.run!(minitest_analyzer_config)
   # end
 
@@ -40,10 +42,10 @@ class RubyMinitestAnalyzerTest < Minitest::Test
   class MinitestAnalyzerConfigExample < MinitestAnalyzerConfigAbstract
     def require_all_test_files
       # require test_helper
-      require_relative("test/test_helper")
-      
+      require_relative('test/test_helper')
+
       # Require all the tests classes
-      Dir["tests/tests_classes/*.rb"].each do |f|
+      Dir['tests/tests_classes/*.rb'].each do |f|
         require_relative(f)
       end
     end
@@ -53,10 +55,10 @@ class RubyMinitestAnalyzerTest < Minitest::Test
 
   def require_all_files
     # require test_helpers
-    require_relative("test_helper")
-    
+    require_relative('test_helper')
+
     # require classes
-    tests_files = Dir[File.expand_path("../tests/tests_classes/*.rb", __dir__)]
+    tests_files = Dir[File.expand_path('../tests/tests_classes/*.rb', __dir__)]
     tests_files.each do |f|
       require_relative(f)
     end

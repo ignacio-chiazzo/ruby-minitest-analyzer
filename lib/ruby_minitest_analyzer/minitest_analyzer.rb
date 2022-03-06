@@ -7,11 +7,11 @@ require_relative 'single_test_class_summary'
 class MinitestAnalyzer < Minitest::Test
   class << self
     def analyze
-      minitest_classes = load_minitest_classes.to_set
+      minitest_classes = minitest_classes_set
       duplicated_suites = {}
 
       minitest_classes.each do |klass|
-       analyze_class(klass, duplicated_suites, minitest_classes)
+        analyze_class(klass, duplicated_suites, minitest_classes)
       end
 
       duplicated_suites
@@ -65,8 +65,8 @@ class MinitestAnalyzer < Minitest::Test
       end
     end
 
-    def load_minitest_classes
-      @minitest_classes ||= Minitest::Runnable.runnables.reject { |s| s.runnable_methods.empty? }
+    def minitest_classes_set
+      @minitest_classes_set ||= Minitest::Runnable.runnables.reject { |s| s.runnable_methods.empty? }
     end
 
     def tests_methods(klass)

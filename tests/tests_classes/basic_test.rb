@@ -1,10 +1,13 @@
-require_relative "parent_test"
+# frozen_string_literal: true
+
+require_relative 'parent_test'
+
 class BasicTest < ParentTest
-  def test_1
+  def test_first
     puts __method__
   end
 
-  def test_2
+  def test_second
     puts __method__
   end
 end

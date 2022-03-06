@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class SingleTestClassSummary
-  def initialize(klass:, runnable_tests_count: , extra_executions_run: , extra_tests_executions_count:, subclasses:)
+  def initialize(klass:, runnable_tests_count:, extra_executions_run:, extra_tests_executions_count:, subclasses:)
     @klass = klass
     @runnable_tests_count = runnable_tests_count
     @extra_executions_run = extra_executions_run
