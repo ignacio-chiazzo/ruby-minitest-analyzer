@@ -1,6 +1,8 @@
-require "minitest"
-require "set"
-require_relative "single_test_class_summary"
+# frozen_string_literal: true
+
+require 'minitest'
+require 'set'
+require_relative 'single_test_class_summary'
 
 class MinitestAnalyzer < Minitest::Test
   class << self
@@ -8,52 +10,60 @@ class MinitestAnalyzer < Minitest::Test
       minitest_classes = load_minitest_classes.to_set
       duplicated_suites = {}
 
-      minitest_classes.each_with_index do |child_a|
-
-        child_a_runnable_tests = tests_methods(child_a)
-        # If the parent doesn't have any runnable test then it does not have duplicated.
-        next unless child_a_runnable_tests.count > 0
-
-        child_a.ancestors.each do |ancestor_a|
-          # ancestor_a
-          #   child_a
-
-          next if child_a == ancestor_a
-
-          # skip if the ancestor is not a minitest class
-          next unless minitest_classes.include?(ancestor_a)
-
-          ancestor_a_runnable_tests = tests_methods(ancestor_a)
-
-          # If the parent doesn't have any runnable test then it does not have duplicated.
-          next unless ancestor_a_runnable_tests.count > 0
-
-          # ancestor_a and child_a have runnable tests, there are duplicated tests.
-          if duplicated_suites[ancestor_a.name]
-            info = duplicated_suites[ancestor_a.name]
-            info.extra_executions_run += 1
-            info.extra_tests_executions_count += info.runnable_tests_count
-            info.add_subclass(child_a)
-            info
-          else
-            tests_count = ancestor_a_runnable_tests.count
-            duplicated_suites_info =  SingleTestClassSummary.new(
-              klass: ancestor_a,
-              runnable_tests_count: tests_count,
-              extra_executions_run: 1,
-              extra_tests_executions_count: tests_count,
-              subclasses: [child_a]
-            )
-
-            duplicated_suites[ancestor_a.name] = duplicated_suites_info
-          end
-        end
+      minitest_classes.each do |klass|
+       analyze_class(klass, duplicated_suites, minitest_classes)
       end
 
       duplicated_suites
     end
 
     private
+
+    def analyze_class(klass, duplicated_suites_acc, minitest_classes)
+      klass_runnable_tests = tests_methods(klass)
+
+      # If the parent doesn't have any runnable test then it does not have duplicated.
+      return unless klass_runnable_tests.count.positive?
+
+      klass.ancestors.each do |klass_parent|
+        # klass_parent
+        #   klass
+
+        next if klass == klass_parent
+
+        # skip if the ancestor is not a minitest class
+        next unless minitest_classes.include?(klass_parent)
+
+        klass_parent_runnable_tests = tests_methods(klass_parent)
+
+        # If the parent doesn't have any runnable test then it does not have duplicated.
+        next unless klass_parent_runnable_tests.count.positive?
+
+        # klass_parent and klass have runnable tests, there are duplicated tests.
+        add_duplicated_test_to_hash(klass, klass_parent, klass_parent_runnable_tests, duplicated_suites_acc)
+      end
+    end
+
+    def add_duplicated_test_to_hash(klass, klass_parent, klass_parent_runnable_tests, hash)
+      if hash[klass_parent.name]
+        info = hash[klass_parent.name]
+        info.extra_executions_run += 1
+        info.extra_tests_executions_count += info.runnable_tests_count
+        info.add_subclass(klass)
+        info
+      else
+        tests_count = klass_parent_runnable_tests.count
+        hash_info = SingleTestClassSummary.new(
+          klass: klass_parent,
+          runnable_tests_count: tests_count,
+          extra_executions_run: 1,
+          extra_tests_executions_count: tests_count,
+          subclasses: [klass]
+        )
+
+        hash[klass_parent.name] = hash_info
+      end
+    end
 
     def load_minitest_classes
       @minitest_classes ||= Minitest::Runnable.runnables.reject { |s| s.runnable_methods.empty? }
