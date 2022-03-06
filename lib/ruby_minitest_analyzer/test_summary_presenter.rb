@@ -27,12 +27,21 @@ class TestSummaryPresenter
     tp.set :max_width, 40
     tp(
       list,
-      { Class: lambda { |s| s.klass.name.demodulize } },
+      { Class: lambda { |s| demodulize_class(s) } },
       "extra_executions_run",
       "runnable_tests_count",
       "extra_tests_executions_count",
       "klass"
     )
+  end
+
+  def demodulize_class(str)
+    klass_name = str.klass.name
+    if klass_name.respond_to?(:demodulize)
+      klass_name.demodulize
+    else
+      klass_name
+    end
   end
 
   # Calculates all the extra tests that might be removed.

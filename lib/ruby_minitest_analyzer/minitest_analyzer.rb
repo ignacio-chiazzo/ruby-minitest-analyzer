@@ -1,4 +1,6 @@
 require "minitest"
+require "set"
+require_relative "single_test_class_summary"
 
 class MinitestsAnalyzer < Minitest::Test
   class << self

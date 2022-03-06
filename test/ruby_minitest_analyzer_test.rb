@@ -16,7 +16,6 @@ class RubyMinitestAnalyzerTest < Minitest::Test
   #     test_files_locations_paths: test_files_locations_paths, # 
   #     exempted_test_file_locations_paths: []
   #   )
-  #   binding.pry
 
   #   # TODO: For some reason it's not picking up the test files location.
   
@@ -26,9 +25,7 @@ class RubyMinitestAnalyzerTest < Minitest::Test
   # def test_run_with_a_config_class
   #   config = MinitestAnalyzerConfigExample.new
   #   config.setup
-  #   binding.pry
   #   ::RubyMinitestAnalyzer.run!(config)
-  #   binding.pry
 
   #   # TODO: For some reason it's not picking up the test files location.
   
@@ -43,14 +40,9 @@ class RubyMinitestAnalyzerTest < Minitest::Test
   class MinitestAnalyzerConfigExample < MinitestAnalyzerConfigAbstract
     def require_all_test_files
       # require test_helper
-      binding.pry
       require_relative("test/test_helper")
-      binding.pry
       
-      # /Users/ignaciochiazzo/ruby_minitest_analyzer/test/test_helper.rb
-      # /Users/ignaciochiazzo/ruby_minitest_analyzer/test/test/test_helper
-      
-      
+      # Require all the tests classes
       Dir["tests/tests_classes/*.rb"].each do |f|
         require_relative(f)
       end
@@ -60,14 +52,13 @@ class RubyMinitestAnalyzerTest < Minitest::Test
   private
 
   def require_all_files
-    binding.pry
-    # require tests helpers
-    $LOAD_PATH.unshift(File.expand_path("../../lib", __FILE__))
-    require_relative("/test/test_helper")
-    binding.pry
+    # require test_helpers
+    require_relative("test_helper")
+    
     # require classes
-    Dir["tests/tests_classes/*.rb"].each do |f|
-      require(f)
+    tests_files = Dir[File.expand_path("../tests/tests_classes/*.rb", __dir__)]
+    tests_files.each do |f|
+      require_relative(f)
     end
   end
 end

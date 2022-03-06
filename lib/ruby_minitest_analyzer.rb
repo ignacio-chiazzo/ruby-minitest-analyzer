@@ -15,7 +15,11 @@ module RubyMinitestAnalyzer
 
   def self.run!(minitest_analyzer_config)
     # Load all the tests and required files such as test_helper.rb
-    minitest_analyzer_config.setup
+    if minitest_analyzer_config.nil?
+      puts("Not requiring files within the gem since tests files are loaded outside")
+    else
+      minitest_analyzer_config.setup 
+    end
 
     # Analyze the data and print the results
     puts "Analyzing!\n\n"
