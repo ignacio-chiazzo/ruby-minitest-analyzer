@@ -2,7 +2,7 @@ require "minitest"
 require "set"
 require_relative "single_test_class_summary"
 
-class MinitestsAnalyzer < Minitest::Test
+class MinitestAnalyzer < Minitest::Test
   class << self
     def analyze
       minitest_classes = load_minitest_classes.to_set

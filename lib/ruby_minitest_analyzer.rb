@@ -23,7 +23,7 @@ module RubyMinitestAnalyzer
 
     # Analyze the data and print the results
     puts "Analyzing!\n\n"
-    duplicated_suites_data = MinitestsAnalyzer.analyze
+    duplicated_suites_data = MinitestAnalyzer.analyze
     presenter = TestSummaryPresenter.new(duplicated_suites_data)
     presenter.present()
     Process.exit!
