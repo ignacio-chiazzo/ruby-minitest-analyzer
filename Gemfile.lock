@@ -38,6 +38,7 @@ GEM
     rubocop-minitest (0.17.2)
       rubocop (>= 0.90, < 2.0)
     ruby-progressbar (1.11.0)
+    table_print (1.5.7)
     unicode-display_width (2.1.0)
 
 PLATFORMS
@@ -52,6 +53,7 @@ DEPENDENCIES
   rubocop (~> 1.25.1)
   rubocop-minitest (~> 0.17.2)
   ruby_minitest_analyzer!
+  table_print
 
 BUNDLED WITH
    1.17.2
