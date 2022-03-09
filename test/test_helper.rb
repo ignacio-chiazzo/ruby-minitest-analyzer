@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 $LOAD_PATH.unshift File.expand_path('../lib', __dir__)
-$LOAD_PATH.unshift File.expand_path('../tests', __dir__)
-$LOAD_PATH.unshift File.expand_path('tests', __dir__)
+# $LOAD_PATH.unshift File.expand_path('../tests', __dir__)
+# $LOAD_PATH.unshift File.expand_path('tests', __dir__)
 require 'ruby_minitest_analyzer'
 
 require 'minitest/autorun'

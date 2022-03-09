@@ -45,7 +45,7 @@ class RubyMinitestAnalyzerTest < Minitest::Test
       require_relative('test/test_helper')
 
       # Require all the tests classes
-      Dir['tests/tests_classes/*.rb'].each do |f|
+      Dir['test/models/*.rb'].each do |f|
         require_relative(f)
       end
     end
@@ -58,7 +58,7 @@ class RubyMinitestAnalyzerTest < Minitest::Test
     require_relative('test_helper')
 
     # require classes
-    tests_files = Dir[File.expand_path('../tests/tests_classes/*.rb', __dir__)]
+    tests_files = Dir[File.expand_path('models/*.rb', __dir__)]
     tests_files.each do |f|
       require_relative(f)
     end
