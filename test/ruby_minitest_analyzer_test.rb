@@ -36,7 +36,7 @@ class RubyMinitestAnalyzerTest < Minitest::Test
 
   def test_run_workaround
     require_all_files
-    ::RubyMinitestAnalyzer.run!(nil)
+    # ::RubyMinitestAnalyzer.run!(nil)
   end
 
   class MinitestAnalyzerConfigExample < MinitestAnalyzerConfigAbstract
