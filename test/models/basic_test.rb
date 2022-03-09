@@ -3,9 +3,7 @@
 require_relative 'parent_test'
 
 class BasicTest < ParentTest
-  def test_first
-  end
+  def test_first; end
 
-  def test_second
-  end
+  def test_second; end
 end
