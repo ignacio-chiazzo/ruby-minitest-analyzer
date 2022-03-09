@@ -72,7 +72,7 @@ class MinitestAnalyzerTest < Minitest::Test
     assert_equal(summary.extra_tests_executions_count, extra_tests_executions_count)
     assert_equal(summary.klass, klass)
     assert_equal(summary.runnable_tests_count, runnable_tests_count)
-    assert_equal(summary.subclasses, subclasses)
+    assert_equal(summary.subclasses.sort_by(&:name), subclasses.sort_by(&:name))
   end
 
   def require_all_files
