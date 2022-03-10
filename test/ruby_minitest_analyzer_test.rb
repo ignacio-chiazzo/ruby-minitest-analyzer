@@ -10,58 +10,55 @@ class RubyMinitestAnalyzerTest < Minitest::Test
   def test_run_without_config
     require_all_files
 
-    MinitestAnalyzer.expects(:analyze).once.returns(class_summary)
-
-    ::RubyMinitestAnalyzer.run!(nil)
+    assert_output_summary(with_setup: false) do
+      ::RubyMinitestAnalyzer.run!(nil)
+    end
   end
 
-  # def test_run_without_config
-  #   test_files_locations_paths = Dir["tests/tests_classes/*.rb"].map do |f|
-  #     File.expand_path(f, __dir__)
-  #   end
+  def test_run_with_passing_a_config
+    tests_files = Dir[File.expand_path('models/*.rb', __dir__)]
 
-  #   # test/test_helper.rb
-  #   minitest_analyzer_config = MinitestAnalyzerConfig.new(
-  #     required_classes_paths: [File.expand_path("test/test_helper.rb", __dir__)],
-  #     test_files_locations_paths: test_files_locations_paths, #
-  #     exempted_test_file_locations_paths: []
-  #   )
+    minitest_analyzer_config = MinitestAnalyzerConfig.new(
+      required_classes_paths: [File.expand_path('test_helper.rb', __dir__)],
+      test_files_locations_paths: tests_files,
+      exempted_test_file_locations_paths: []
+    )
 
-  #   # TODO: For some reason it's not picking up the test files location.
-
-  #   ::RubyMinitestAnalyzer.run!(minitest_analyzer_config)
-  # end
-
-  # def test_run_with_a_config_class
-  #   config = MinitestAnalyzerConfigExample.new
-  #   config.setup
-  #   ::RubyMinitestAnalyzer.run!(config)
-
-  #   # TODO: For some reason it's not picking up the test files location.
-
-  #   ::RubyMinitestAnalyzer.run!(minitest_analyzer_config)
-  # end
-
-  def test_run_workaround
-    require_all_files
-    # ::RubyMinitestAnalyzer.run!(nil)
-  end
-
-  class MinitestAnalyzerConfigExample < MinitestAnalyzerConfigAbstract
-    def require_all_test_files
-      # require test_helper
-      require_relative('test/test_helper')
-
-      # Require all the tests classes
-      Dir['test/models/*.rb'].each do |f|
-        require_relative(f)
-      end
+    assert_output_summary do
+      ::RubyMinitestAnalyzer.run!(minitest_analyzer_config)
     end
   end
 
   private
 
-  def class_summary # rubocop:disable Metrics/MethodLength
+  def assert_output_summary(with_setup: true, &block)
+    output = capture_subprocess_io(&block)
+    setup_message = if with_setup
+                      "---------------Setting up---------------\n" \
+                        "Requiring files...\n" \
+                        "Total of 6 test classes to analyze. \n" \
+                        "---------------Setup finished! Ready to analyze the tests---------------\n" \
+                    else
+                      "Not requiring files within the gem since tests files are loaded outside\n"
+                    end
+
+    assert_includes(
+      output.first,
+      "#{setup_message}" \
+      "Analyzing!\n\n" \
+      "* Total duplicated tests that can be removed: 13\n" \
+      "* Total classes with duplicated tests: 3 \n\n" \
+      "Classes that run the tests multiple times: \n\n" \
+      "CLASS                  | EXTRA_EXECUTIONS_RUN | RUNNABLE_TESTS_COUNT | EXTRA_TESTS_EXECUTIONS_COUNT | KLASS                 \n" \
+      "-----------------------|----------------------|----------------------|------------------------------|-----------------------\n" \
+      "ParentTest             | 1                    | 1                    | 1                            | ParentTest            \n" \
+      "ProductGrandParentTest | 4                    | 1                    | 4                            | ProductGrandParentTest\n" \
+      "ProductParentTest      | 2                    | 4                    | 8                            | ProductParentTest     \n\n\n" \
+      "Finish\n"
+    )
+  end
+
+  def class_summary
     @class_summary ||= {
       'ParentTest' => SingleTestClassSummary.new(
         extra_executions_run: 1,
