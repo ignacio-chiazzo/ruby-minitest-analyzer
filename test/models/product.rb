@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'test_helper'
+
 class Product
   def initialize(title, price)
     @title = title

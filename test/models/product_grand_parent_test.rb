@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
-require 'minitest'
-require 'minitest/autorun'
+require 'test_helper'
 
 class ProductGrandParentTest < Minitest::Test
   def setup; end

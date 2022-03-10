@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'test_helper'
 require_relative 'parent_test'
 
 class BasicTest < ParentTest
