@@ -46,18 +46,6 @@ class MinitestAnalyzerTest < Minitest::Test
     )
   end
 
-  class MinitestAnalyzerConfigExample < MinitestAnalyzerConfigAbstract
-    def require_all_test_files
-      # require test_helper
-      require_relative('test/test_helper')
-
-      # Require all the tests classes
-      Dir['../models/*.rb'].each do |f|
-        require_relative(f)
-      end
-    end
-  end
-
   private
 
   def assert_summary(

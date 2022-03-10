@@ -5,9 +5,13 @@ Style/Documentation:
 
 Layout/LineLength:
   Max: 120
+  Exclude:
+    - 'test/ruby_minitest_analyzer/test_summary_presenter_test.rb'
 
 Metrics/MethodLength:
   Max: 20
+  Exclude:
+    - 'test/ruby_minitest_analyzer.rb'
 
 Metrics/ParameterLists:
   Max: 7
