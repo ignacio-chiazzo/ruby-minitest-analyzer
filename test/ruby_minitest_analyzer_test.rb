@@ -7,7 +7,15 @@ class RubyMinitestAnalyzerTest < Minitest::Test
     refute_nil ::RubyMinitestAnalyzer::VERSION
   end
 
-  # def test_run
+  def test_run_without_config
+    require_all_files
+
+    MinitestAnalyzer.expects(:analyze).once.returns(class_summary)
+
+    ::RubyMinitestAnalyzer.run!(nil)
+  end
+
+  # def test_run_without_config
   #   test_files_locations_paths = Dir["tests/tests_classes/*.rb"].map do |f|
   #     File.expand_path(f, __dir__)
   #   end
@@ -52,6 +60,33 @@ class RubyMinitestAnalyzerTest < Minitest::Test
   end
 
   private
+
+  def class_summary # rubocop:disable Metrics/MethodLength
+    @class_summary ||= {
+      'ParentTest' => SingleTestClassSummary.new(
+        extra_executions_run: 1,
+        extra_tests_executions_count: 1,
+        klass: ParentTest,
+        runnable_tests_count: 1,
+        subclasses: [BasicTest]
+      ),
+      'ProductGrandParentTest' => SingleTestClassSummary.new(
+        extra_executions_run: 4,
+        extra_tests_executions_count: 4,
+        klass: ProductGrandParentTest,
+        runnable_tests_count: 1,
+        subclasses: [ProductParent2Test, ProductParentTest, ProductParentTest::TitleTest,
+                     ProductParentTest::TitleTestTest]
+      ),
+      'ProductParentTest' => SingleTestClassSummary.new(
+        extra_executions_run: 2,
+        extra_tests_executions_count: 8,
+        klass: ProductParentTest,
+        runnable_tests_count: 4,
+        subclasses: [ProductParentTest::TitleTest, ProductParentTest::TitleTestTest]
+      )
+    }
+  end
 
   def require_all_files
     # require test_helpers

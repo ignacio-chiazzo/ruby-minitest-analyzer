@@ -15,7 +15,7 @@ module RubyMinitestAnalyzer
   class Error < StandardError; end
   # Your code goes here...
 
-  def self.run!(minitest_analyzer_config)
+  def self.run!(minitest_analyzer_config = nil)
     # Load all the tests and required files such as test_helper.rb
     if minitest_analyzer_config.nil?
       puts('Not requiring files within the gem since tests files are loaded outside')
@@ -28,7 +28,7 @@ module RubyMinitestAnalyzer
     duplicated_suites_data = MinitestAnalyzer.analyze
     presenter = TestSummaryPresenter.new(duplicated_suites_data)
     presenter.present
-    Process.exit!
+    # Process.exit! # TODO: Exit the process.
     puts 'Finish'
   end
 end

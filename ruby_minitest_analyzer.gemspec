@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Ignacio Chiazzo Cardarello']
   spec.email         = ['ignaciochiazzo@gmail.com']
 
-  spec.summary       = ' Minitest Ruby Doctor Analyzer .'
+  spec.summary       = ' Minitest Ruby Tests Analyzer .'
   spec.description   = ' This gem analyzes duplicated tests in Ruby Minitest applications '
   spec.homepage      = 'https://github.com/ignacio-chiazzo/rails-minitest-analyzer'
   spec.license       = 'MIT'
