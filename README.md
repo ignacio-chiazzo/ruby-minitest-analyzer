@@ -38,7 +38,24 @@ Finished in 0.001218s, 3284.0724 runs/s, 0.0000 assertions/s.
 
 The reason is that `ProductTest` is a subclass of `ProductParentTest`.
 
+## Installation
+
+Add this line to your application's Gemfile:
+
+```ruby
+gem 'ruby_minitest_analyzer'
+```
+
+And then execute:
+
+    $ bundle
+
+Or install it yourself as:
+
+    $ gem install ruby_minitest_analyzer
+
 ### How can I run the analyzer on my Application?
+
 run `ruby minitest.rb` it will analyze the tests within the project that uses Minitests.
 1) Create a new test file.
 2) Create a method `require_all_test_files` that will require all the tests files, including
@@ -90,28 +107,6 @@ ProductGrandParentTest | 4                    | 1                    | 4        
 ProductParentTest      | 2                    | 4                    | 8                            | ProductParentTest     
 ```
 =======
-# RubyMinitestAnalyzer
-
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/ruby_minitest_analyzer`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
-
-## Installation
-
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'ruby_minitest_analyzer'
-```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install ruby_minitest_analyzer
-
 
 ## Development
 
