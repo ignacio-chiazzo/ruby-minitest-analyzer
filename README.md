@@ -106,7 +106,6 @@ ParentTest             | 1                    | 1                    | 1        
 ProductGrandParentTest | 4                    | 1                    | 4                            | ProductGrandParentTest
 ProductParentTest      | 2                    | 4                    | 8                            | ProductParentTest     
 ```
-=======
 
 ## Development
 

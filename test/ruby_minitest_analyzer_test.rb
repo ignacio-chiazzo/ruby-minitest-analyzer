@@ -46,6 +46,7 @@ class RubyMinitestAnalyzerTest < Minitest::Test
       output.first,
       "#{setup_message}" \
       "Analyzing!\n\n" \
+      "Analyzed a total of 10 classes.\n\n" \
       "* Total duplicated tests that can be removed: 13\n" \
       "* Total classes with duplicated tests: 3 \n\n" \
       "Classes that run the tests multiple times: \n\n" \
