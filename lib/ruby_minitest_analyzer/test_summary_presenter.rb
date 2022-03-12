@@ -12,7 +12,6 @@ class TestSummaryPresenter
   def present
     puts "* Total duplicated tests that can be removed: #{@total_extra_tests}"
     puts "* Total classes with duplicated tests: #{@total_extra_classes} "
-    puts "\nClasses that run the tests multiple times: \n\n"
     print_table_stats
     puts "\n\n"
   end
@@ -24,6 +23,7 @@ class TestSummaryPresenter
       puts 'Nice Job! No duplicated tests found!!!'
       return
     end
+    puts "\nClasses that run the tests multiple times: \n\n"
 
     list = @duplicated_suites.map { |_klass_name, summary| summary }
     tp.set :max_width, 40

@@ -14,10 +14,16 @@ class MinitestAnalyzer < Minitest::Test
         analyze_class(klass, duplicated_suites, minitest_classes)
       end
 
+      print_analyzed_class(minitest_classes)
+
       duplicated_suites
     end
 
     private
+
+    def print_analyzed_class(minitest_classes)
+      puts "Analyzed a total of #{minitest_classes.count} classes.\n\n"
+    end
 
     def analyze_class(klass, duplicated_suites_acc, minitest_classes)
       klass_runnable_tests = tests_methods(klass)
