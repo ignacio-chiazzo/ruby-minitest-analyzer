@@ -62,26 +62,30 @@ run `ruby minitest.rb` it will analyze the tests within the project that uses Mi
 the files needed to run the tests e.g. `test_helper.rb`.
 3) Call `::RubyMinitestAnalyzer.run!(nil)`.
 4) Run the file.
-```
 
-Something like this:
+
+<details>
+<summary>Example:</summary>
+  
 ```ruby
-require 'ruby_minitest_analyzer'
-
-require_all_files
-::RubyMinitestAnalyzer.run!(nil)
+  # I placed this file within /test
+  
+require_relative 'test_helper.rb'
+require 'ruby_minitest_analyzer' 
 
 def require_all_files
   # require test_helpers
-  require_relative('test_helper')
+  require_relative("test_helper")
 
-  # require classes
-  tests_files = Dir[File.expand_path('models/*.rb', __dir__)]
-  tests_files.each do |f|
+  Dir[File.expand_path('**/*.rb', __dir__)].each do |f|
     require_relative(f)
   end
 end
+
+require_all_files
+::RubyMinitestAnalyzer.run!(nil)
 ```
+</details>
 
 ### Running the analyzer in your app.
 
