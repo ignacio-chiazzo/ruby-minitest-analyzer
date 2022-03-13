@@ -15,7 +15,7 @@ module RubyMinitestAnalyzer
     presenter = TestSummaryPresenter.new(duplicated_suites_data)
     presenter.present
     Process.exit! if should_exit_process
-    puts 'Finish'
+    puts 'Finished'
   end
 
   def self.load_test_files(minitest_analyzer_config)

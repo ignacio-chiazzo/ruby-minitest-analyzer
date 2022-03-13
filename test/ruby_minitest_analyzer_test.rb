@@ -55,7 +55,7 @@ class RubyMinitestAnalyzerTest < Minitest::Test
       "ParentTest             | 1                    | 1                    | 1                            | ParentTest            \n" \
       "ProductGrandParentTest | 4                    | 1                    | 4                            | ProductGrandParentTest\n" \
       "ProductParentTest      | 2                    | 4                    | 8                            | ProductParentTest     \n\n\n" \
-      "Finish\n"
+      "Finished\n"
     )
   end
 
