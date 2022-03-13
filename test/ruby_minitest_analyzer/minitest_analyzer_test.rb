@@ -4,45 +4,43 @@ require_relative '../test_helper'
 require_relative '../../lib/ruby_minitest_analyzer/minitest_analyzer'
 
 class MinitestAnalyzerTest < Minitest::Test
-  # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
   def test_analyze
-    # rubocop:enable Metrics/MethodLength, Metrics/AbcSize
     require_all_files
     result = ::MinitestAnalyzer.analyze
+
     assert_equal(
-      [ParentTest.name, ProductGrandParentTest.name, ProductParentTest.name].sort,
+      [GrandParentTest.name, Parent1Test.name, Parent2Test.name].sort,
       result.keys.sort
     )
 
-    parent_test_summary = result[ParentTest.name]
+    parent_test_summary = result[GrandParentTest.name]
     assert_summary(
       summary: parent_test_summary,
-      extra_executions_run: 1,
-      extra_tests_executions_count: 1,
-      klass: ParentTest,
+      extra_executions_run: 5,
+      extra_tests_executions_count: 5,
+      klass: GrandParentTest,
       runnable_tests_count: 1,
-      subclasses: [BasicTest]
+      subclasses: [Parent1Test, Parent2Test, Child1Test, Child2Test, Child3Test]
     )
 
-    product_parent_test_summary = result[ProductParentTest.name]
+    parent_1_test_summary = result[Parent1Test.name]
     assert_summary(
-      summary: product_parent_test_summary,
+      summary: parent_1_test_summary,
       extra_executions_run: 2,
-      extra_tests_executions_count: 8,
-      klass: ProductParentTest,
-      runnable_tests_count: 4,
-      subclasses: [ProductParentTest::TitleTest, ProductParentTest::TitleTestTest]
+      extra_tests_executions_count: 4,
+      klass: Parent1Test,
+      runnable_tests_count: 2,
+      subclasses: [Child1Test, Child2Test]
     )
 
-    product_grand_parent_test_summary = result[ProductGrandParentTest.name]
+    parent_2_test_summary = result[Parent2Test.name]
     assert_summary(
-      summary: product_grand_parent_test_summary,
-      extra_executions_run: 4,
+      summary: parent_2_test_summary,
+      extra_executions_run: 1,
       extra_tests_executions_count: 4,
-      klass: ProductGrandParentTest,
-      runnable_tests_count: 1,
-      subclasses: [ProductParentTest, ProductParentTest::TitleTest, ProductParentTest::TitleTestTest,
-                   ProductParent2Test]
+      klass: Parent2Test,
+      runnable_tests_count: 4,
+      subclasses: [Child3Test]
     )
   end
 
@@ -56,11 +54,11 @@ class MinitestAnalyzerTest < Minitest::Test
     runnable_tests_count:,
     subclasses:
   )
-    assert_equal(summary.extra_executions_run, extra_executions_run)
-    assert_equal(summary.extra_tests_executions_count, extra_tests_executions_count)
-    assert_equal(summary.klass, klass)
-    assert_equal(summary.runnable_tests_count, runnable_tests_count)
-    assert_equal(summary.subclasses.sort_by(&:name), subclasses.sort_by(&:name))
+    assert_equal(extra_executions_run, summary.extra_executions_run)
+    assert_equal(extra_tests_executions_count, summary.extra_tests_executions_count)
+    assert_equal(klass, summary.klass)
+    assert_equal(runnable_tests_count, summary.runnable_tests_count)
+    assert_equal(subclasses.sort_by(&:name), summary.subclasses.sort_by(&:name))
   end
 
   def require_all_files
