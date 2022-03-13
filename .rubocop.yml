@@ -10,9 +10,12 @@ Layout/LineLength:
     - 'test/ruby_minitest_analyzer_test.rb'
 
 Metrics/MethodLength:
-  Max: 30
+  Max: 35
   Exclude:
     - 'test/ruby_minitest_analyzer.rb'
+
+Metrics/AbcSize:
+  Enabled: false
 
 Metrics/ParameterLists:
   Max: 7

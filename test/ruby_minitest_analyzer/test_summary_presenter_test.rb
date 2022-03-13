@@ -10,13 +10,13 @@ class TestSummaryPresenterTest < Minitest::Test
     end
 
     assert_includes(
-      out, "* Total duplicated tests that can be removed: 5\n" \
+      out, "* Total duplicated tests that can be removed: 8\n" \
            "* Total classes with duplicated tests: 2 \n\n" \
            "Classes that run the tests multiple times: \n\n" \
-           "CLASS NAME             | EXTRA_EXECUTIONS_RUN | RUNNABLE_TESTS_COUNT | EXTRA_TESTS_EXECUTIONS_COUNT | CLASS                 \n" \
-           "-----------------------|----------------------|----------------------|------------------------------|-----------------------\n" \
-           "ParentTest             | 1                    | 1                    | 1                            | ParentTest            \n" \
-           "ProductGrandParentTest | 4                    | 1                    | 4                            | ProductGrandParentTest\n" \
+           "CLASS NAME      | EXTRA_EXECUTIONS_RUN | RUNNABLE_TESTS_COUNT | EXTRA_TESTS_EXECUTIONS_COUNT | CLASS          \n" \
+           "----------------|----------------------|----------------------|------------------------------|----------------\n" \
+           "GrandParentTest | 4                    | 1                    | 4                            | GrandParentTest\n" \
+           "Parent1Test     | 2                    | 2                    | 4                            | Parent1Test    \n" \
            "\n\n"
     )
   end
@@ -25,20 +25,19 @@ class TestSummaryPresenterTest < Minitest::Test
 
   def duplicated_suites
     {
-      'ParentTest' => SingleTestClassSummary.new(
-        extra_executions_run: 1,
-        extra_tests_executions_count: 1,
-        klass: ParentTest,
-        runnable_tests_count: 1,
-        subclasses: [BasicTest]
-      ),
-      'ProductGrandParentTest' => SingleTestClassSummary.new(
+      'GrandParentTest' => SingleTestClassSummary.new(
         extra_executions_run: 4,
         extra_tests_executions_count: 4,
-        klass: ProductGrandParentTest,
+        klass: GrandParentTest,
         runnable_tests_count: 1,
-        subclasses: [ProductParent2Test, ProductParentTest, ProductParentTest::TitleTest,
-                     ProductParentTest::TitleTestTest]
+        subclasses: [Parent1Test, Parent2Test, Child1Test, Child2Test]
+      ),
+      'Parent1Test' => SingleTestClassSummary.new(
+        extra_executions_run: 2,
+        extra_tests_executions_count: 4,
+        klass: Parent1Test,
+        runnable_tests_count: 2,
+        subclasses: [Child1Test, Child2Test]
       )
     }
   end
