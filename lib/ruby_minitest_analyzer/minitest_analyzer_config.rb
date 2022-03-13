@@ -34,7 +34,6 @@ class MinitestAnalyzerConfig
     end
 
     # require test classes
-
     test_files_locations_paths.each do |f|
       next if f == current_location_source
       next if exempted_test_file_locations_paths.include?(f)
@@ -53,11 +52,15 @@ class MinitestAnalyzerConfig
   end
 
   def print_tests_stats
-    puts "#{'-' * 15}Setting up#{'-' * 15}"
+    puts "#{delimiter}Setting up#{delimiter}"
     puts 'Requiring files...'
     minitest_classes = yield
     print_analyzer_stats(minitest_classes)
-    puts "#{'-' * 15}Setup finished! Ready to analyze the tests#{'-' * 15}\n"
+    puts "#{delimiter}Setup finished! Ready to analyze the tests#{delimiter}\n"
+  end
+
+  def delimiter
+    '-' * 15
   end
 
   def print_analyzer_stats(minitest_classes)
