@@ -33,7 +33,7 @@ class TestSummaryPresenter
       'extra_executions_run',
       'runnable_tests_count',
       'extra_tests_executions_count',
-      'Class': -> (s) { s.klass }
+      Class: ->(s) { s.klass }
     )
   end
 
