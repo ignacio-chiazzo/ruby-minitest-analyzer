@@ -47,14 +47,14 @@ class RubyMinitestAnalyzerTest < Minitest::Test
       "#{setup_message}" \
       "Analyzing!\n\n" \
       "Analyzed a total of 9 classes.\n\n" \
-      "* Total duplicated tests that can be removed: 11\n" \
+      "* Total duplicated tests that can be removed: 13\n" \
       "* Total classes with duplicated tests: 3 \n\n" \
       "Classes that run the tests multiple times: \n\n" \
       "CLASS NAME      | EXTRA_EXECUTIONS_RUN | RUNNABLE_TESTS_COUNT | EXTRA_TESTS_EXECUTIONS_COUNT | CLASS          \n" \
       "----------------|----------------------|----------------------|------------------------------|----------------\n" \
       "GrandParentTest | 5                    | 1                    | 5                            | GrandParentTest\n" \
       "Parent1Test     | 2                    | 2                    | 4                            | Parent1Test    \n" \
-      "Parent2Test     | 1                    | 2                    | 2                            | Parent2Test    \n\n\n" \
+      "Parent2Test     | 1                    | 4                    | 4                            | Parent2Test    \n\n\n" \
       "Finished\n"
     )
   end
@@ -75,13 +75,6 @@ class RubyMinitestAnalyzerTest < Minitest::Test
         runnable_tests_count: 1,
         subclasses: [Child1Test, Child2Test]
       )
-      # 'Parent2Test' => SingleTestClassSummary.new(
-      #   extra_executions_run: 4,
-      #   extra_tests_executions_count: 1,
-      #   klass: Parent2Test,
-      #   runnable_tests_count: 1,
-      #   subclasses: []
-      # )
     }
   end
 
