@@ -6,8 +6,6 @@ require_relative 'ruby_minitest_analyzer/minitest_analyzer'
 require_relative 'ruby_minitest_analyzer/test_summary_presenter'
 
 module RubyMinitestAnalyzer
-  class Error < StandardError; end
-
   def self.run!(minitest_analyzer_config = nil, should_exit_process: false)
     load_test_files(minitest_analyzer_config)
 
