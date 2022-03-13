@@ -11,14 +11,17 @@ require "minitest/autorun"
 
 class ProductParentTest < Minitest::Test
   def test_parent
+    puts __method__
   end
 end
 
 class ProductTest < ProductParentTest
   def test_1
+    puts __method__
   end
 
   def test_2
+    puts __method__
   end
 end
 ```
