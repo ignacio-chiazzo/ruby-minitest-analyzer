@@ -1,6 +1,4 @@
-# Minitest Ruby redundant tests Analyzer
-
-Ruby Minitests analyzer detects tests that are running multiple times. In some cases, we want them to run them twice, but most of the times we don't. 
+Ruby Minitests analyzer detects tests that run multiple times. In some cases, we want them to run them twice, but most of the time, we don't. 
 
 ### Example
 See the following case. 
@@ -25,7 +23,7 @@ class ProductTest < ProductParentTest
   end
 end
 ```
-If we run the `ProductTest` tests, how many tests will it run? 4! (yes four). Try it!
+How many tests will we run if we run the `ProductTest` tests? 4! (yes, four). Try it!
 
 ```console
 # Running:
@@ -43,7 +41,7 @@ The reason is that `ProductTest` is a subclass of `ProductParentTest`.
 
 ## Installation
 
-Add this line to your application's Gemfile:
+Add this line to your Application's Gemfile:
 
 ```ruby
 gem 'ruby_minitest_analyzer'
@@ -59,7 +57,7 @@ Or install it yourself as:
 
 ### How can I run the analyzer on my Application?
 
-run `ruby minitest.rb` it will analyze the tests within the project that uses Minitests.
+Run `ruby minitest.rb` it will analyze the tests within the project that uses Minitests.
 1) Create a new test file.
 2) Create a method `require_all_test_files` that will require all the tests files, including
 the files needed to run the tests e.g. `test_helper.rb`.
