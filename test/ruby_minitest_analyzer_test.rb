@@ -60,25 +60,6 @@ class RubyMinitestAnalyzerTest < Minitest::Test
     )
   end
 
-  def class_summary
-    @class_summary ||= {
-      'GrandParentTest' => SingleTestClassSummary.new(
-        class_descendant_count: 4,
-        extra_tests_executions_count: 1,
-        klass: GrandParentTest,
-        runnable_tests_count: 1,
-        subclasses: [Parent1Test, Parent2Test]
-      ),
-      'Parent1Test' => SingleTestClassSummary.new(
-        class_descendant_count: 4,
-        extra_tests_executions_count: 1,
-        klass: Parent1,
-        runnable_tests_count: 1,
-        subclasses: [Child1Test, Child2Test]
-      )
-    }
-  end
-
   def require_all_files
     # require test_helpers
     require_relative('test_helper')
