@@ -53,7 +53,7 @@ class MinitestAnalyzer < Minitest::Test
     def add_duplicated_test_to_hash(klass, klass_parent, klass_parent_runnable_tests, hash)
       if hash[klass_parent.name]
         info = hash[klass_parent.name]
-        info.extra_executions_run += 1
+        info.class_descendant_count += 1
         info.extra_tests_executions_count += info.runnable_tests_count
         info.add_subclass(klass)
         info
@@ -62,7 +62,7 @@ class MinitestAnalyzer < Minitest::Test
         hash_info = SingleTestClassSummary.new(
           klass: klass_parent,
           runnable_tests_count: tests_count,
-          extra_executions_run: 1,
+          class_descendant_count: 1,
           extra_tests_executions_count: tests_count,
           subclasses: [klass]
         )

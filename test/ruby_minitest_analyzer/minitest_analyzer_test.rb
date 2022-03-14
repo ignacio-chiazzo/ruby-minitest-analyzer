@@ -16,7 +16,7 @@ class MinitestAnalyzerTest < Minitest::Test
     parent_test_summary = result[GrandParentTest.name]
     assert_summary(
       summary: parent_test_summary,
-      extra_executions_run: 5,
+      class_descendant_count: 5,
       extra_tests_executions_count: 5,
       klass: GrandParentTest,
       runnable_tests_count: 1,
@@ -26,7 +26,7 @@ class MinitestAnalyzerTest < Minitest::Test
     parent_1_test_summary = result[Parent1Test.name]
     assert_summary(
       summary: parent_1_test_summary,
-      extra_executions_run: 2,
+      class_descendant_count: 2,
       extra_tests_executions_count: 4,
       klass: Parent1Test,
       runnable_tests_count: 2,
@@ -36,7 +36,7 @@ class MinitestAnalyzerTest < Minitest::Test
     parent_2_test_summary = result[Parent2Test.name]
     assert_summary(
       summary: parent_2_test_summary,
-      extra_executions_run: 1,
+      class_descendant_count: 1,
       extra_tests_executions_count: 4,
       klass: Parent2Test,
       runnable_tests_count: 4,
@@ -48,13 +48,13 @@ class MinitestAnalyzerTest < Minitest::Test
 
   def assert_summary(
     summary:,
-    extra_executions_run:,
+    class_descendant_count:,
     extra_tests_executions_count:,
     klass:,
     runnable_tests_count:,
     subclasses:
   )
-    assert_equal(extra_executions_run, summary.extra_executions_run)
+    assert_equal(class_descendant_count, summary.class_descendant_count)
     assert_equal(extra_tests_executions_count, summary.extra_tests_executions_count)
     assert_equal(klass, summary.klass)
     assert_equal(runnable_tests_count, summary.runnable_tests_count)

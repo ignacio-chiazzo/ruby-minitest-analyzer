@@ -50,11 +50,12 @@ class RubyMinitestAnalyzerTest < Minitest::Test
       "* Total duplicated tests that can be removed: 13\n" \
       "* Total classes with duplicated tests: 3 \n\n" \
       "Classes that run the tests multiple times: \n\n" \
-      "CLASS NAME      | EXTRA_EXECUTIONS_RUN | RUNNABLE_TESTS_COUNT | EXTRA_TESTS_EXECUTIONS_COUNT | CLASS          \n" \
-      "----------------|----------------------|----------------------|------------------------------|----------------\n" \
-      "GrandParentTest | 5                    | 1                    | 5                            | GrandParentTest\n" \
-      "Parent1Test     | 2                    | 2                    | 4                            | Parent1Test    \n" \
-      "Parent2Test     | 1                    | 4                    | 4                            | Parent2Test    \n\n\n" \
+      "CLASS NAME      | CLASS_TEST_METHODS_COUNT | CLASS_DESCENDANT_COUNT | EXTRA_TESTS_EXECUTIONS_COUNT | CLASS          \n" \
+      "----------------|--------------------------|------------------------|------------------------------|----------------\n" \
+      "GrandParentTest | 1                        | 5                      | 5                            | GrandParentTest\n" \
+      "Parent1Test     | 2                        | 2                      | 4                            | Parent1Test    \n" \
+      "Parent2Test     | 4                        | 1                      | 4                            | Parent2Test    \n" \
+      "\n\n" \
       "Finished\n"
     )
   end
@@ -62,14 +63,14 @@ class RubyMinitestAnalyzerTest < Minitest::Test
   def class_summary
     @class_summary ||= {
       'GrandParentTest' => SingleTestClassSummary.new(
-        extra_executions_run: 4,
+        class_descendant_count: 4,
         extra_tests_executions_count: 1,
         klass: GrandParentTest,
         runnable_tests_count: 1,
         subclasses: [Parent1Test, Parent2Test]
       ),
       'Parent1Test' => SingleTestClassSummary.new(
-        extra_executions_run: 4,
+        class_descendant_count: 4,
         extra_tests_executions_count: 1,
         klass: Parent1,
         runnable_tests_count: 1,
