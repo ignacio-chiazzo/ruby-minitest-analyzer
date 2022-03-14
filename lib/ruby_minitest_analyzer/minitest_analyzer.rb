@@ -28,7 +28,7 @@ class MinitestAnalyzer < Minitest::Test
     def analyze_class(klass, duplicated_suites_acc, minitest_classes)
       klass_runnable_tests = tests_methods(klass)
 
-      # If the parent doesn't have any runnable test then it does not have duplicated.
+      # If the parent doesn't have any runnable tests then it does not have duplicated.
       return unless klass_runnable_tests.count.positive?
 
       klass.ancestors.each do |klass_parent|
@@ -77,7 +77,7 @@ class MinitestAnalyzer < Minitest::Test
 
     def tests_methods(klass)
       re = /test_/
-      klass.public_instance_methods(true).grep(re).map(&:to_s)
+      klass.public_instance_methods(false).grep(re).map(&:to_s)
     end
   end
 end
