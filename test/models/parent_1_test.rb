@@ -3,7 +3,5 @@
 require_relative 'grand_parent_test'
 
 class Parent1Test < GrandParentTest
-  def test_b
-    puts __method__
-  end
+  def test_b; end
 end
