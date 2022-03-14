@@ -1,4 +1,10 @@
-Ruby Minitests analyzer detects tests that run multiple times. In some cases, we want them to run them twice, but most of the time, we don't. 
+Minitest uses Ruby classes making the tests to run twice if it uses subclasses. 
+**Ruby Minitests analyzer detects tests that run multiple times.** In some cases, we want them to run them twice, but most of the time, we don't. 
+
+![2](https://user-images.githubusercontent.com/11672878/158103231-c5f884d7-24d5-4043-85e8-4ba51f962027.png)
+
+This Library is explained in details in [this Post](https://ignaciochiazzo.medium.com/dont-run-ruby-minitest-classess-twice-988645662cdb?source=friends_link&sk=4fafa2404be622156fd50cab519d5fd0)
+
 
 ### Example
 See the following case. 
@@ -88,28 +94,30 @@ require_all_files
 ```
 </details>
 
-### Running the analyzer in your app.
-
-Copy and paste the `minitest.rb` file. Modify the variables there and run the file.
+Running the file example:
 
 ```console
 ➜  rails-minitest-analyzer git:(main) ✗ ruby minitest.rb 
 ---------------Setting up---------------
 Requiring files...
-Total of 5 test classes to analyze. 
+Total of 6 test classes to analyze. 
 ---------------Setup finished! Ready to analyze the tests---------------
 Analyzing!
 
-* Total duplicated tests that can be removed: 13
+Analyzed a total of 6 classes.
+      
+* Total duplicated tests that can be removed: 10
 * Total classes with duplicated tests: 3 
-
+      
 Classes that run the tests multiple times: 
 
-CLASS                  | EXTRA_EXECUTIONS_RUN | RUNNABLE_TESTS_COUNT | EXTRA_TESTS_EXECUTIONS_COUNT | KLASS                 
------------------------|----------------------|----------------------|------------------------------|-----------------------
-ParentTest             | 1                    | 1                    | 1                            | ParentTest            
-ProductGrandParentTest | 4                    | 1                    | 4                            | ProductGrandParentTest
-ProductParentTest      | 2                    | 4                    | 8                            | ProductParentTest     
+CLASS NAME      | CLASS_TEST_METHODS_COUNT | CLASS_DESCENDANT_COUNT | CLASS          
+----------------|--------------------------|------------------------|----------------
+GrandParentTest | 1                        | 5                      | GrandParentTest
+Parent1Test     | 1                        | 2                      | Parent1Test    
+Parent2Test     | 3                        | 1                      | Parent2Test    
+
+Finished!  
 ```
 
 ## Development
