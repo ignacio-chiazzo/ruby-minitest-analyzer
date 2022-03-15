@@ -23,7 +23,7 @@ GEM
       byebug (~> 11.0)
       pry (~> 0.13.0)
     rainbow (3.1.1)
-    rake (10.5.0)
+    rake (13.0.6)
     regexp_parser (2.2.1)
     rexml (3.2.5)
     rubocop (1.25.1)
@@ -52,7 +52,7 @@ DEPENDENCIES
   mocha
   pry (~> 0.13.1)
   pry-byebug (~> 3.9.0)
-  rake (~> 10.0)
+  rake (~> 13.0)
   rubocop (~> 1.25.1)
   rubocop-minitest (~> 0.17.2)
   ruby_minitest_analyzer!
