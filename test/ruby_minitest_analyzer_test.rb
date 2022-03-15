@@ -47,13 +47,13 @@ class RubyMinitestAnalyzerTest < Minitest::Test
       "#{setup_message}" \
       "Analyzing!\n\n" \
       "Analyzed a total of 9 classes.\n\n" \
-      "* Total duplicated tests that can be removed: 10\n" \
+      "* Total duplicated tests that can be removed: 12\n" \
       "* Total classes with duplicated tests: 3 \n\n" \
       "Classes that run the tests multiple times: \n\n" \
       "CLASS NAME      | CLASS_TEST_METHODS_COUNT | CLASS_DESCENDANT_COUNT | EXTRA_TESTS_EXECUTIONS_COUNT | CLASS          \n" \
       "----------------|--------------------------|------------------------|------------------------------|----------------\n" \
       "GrandParentTest | 1                        | 5                      | 5                            | GrandParentTest\n" \
-      "Parent1Test     | 1                        | 2                      | 2                            | Parent1Test    \n" \
+      "Parent1Test     | 2                        | 2                      | 4                            | Parent1Test    \n" \
       "Parent2Test     | 3                        | 1                      | 3                            | Parent2Test    \n" \
       "\n\n" \
       "Finished\n"
