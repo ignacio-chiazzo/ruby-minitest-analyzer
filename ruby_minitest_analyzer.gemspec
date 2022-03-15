@@ -9,10 +9,9 @@ Gem::Specification.new do |spec|
   spec.version       = RubyMinitestAnalyzer::VERSION
   spec.authors       = ['Ignacio Chiazzo Cardarello']
   spec.email         = ['ignaciochiazzo@gmail.com']
-
   spec.summary       = ' Minitest Ruby Tests Analyzer .'
-  spec.description   = ' This gem analyzes duplicated tests in Ruby Minitest applications '
-  spec.homepage      = 'https://github.com/ignacio-chiazzo/rails-minitest-analyzer'
+  spec.description   = ' Analyzes duplicated tests in Ruby Minitest applications'
+  spec.homepage      = 'https://github.com/ignacio-chiazzo/ruby-minitest-analyzer'
   spec.license       = 'MIT'
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
