@@ -7,7 +7,7 @@ Ruby Minitest Analyzer will analyze your Minitest classes and detect any duplica
 
 ![Untitled-2022-03-13-1106](https://user-images.githubusercontent.com/11672878/158284753-08ea962f-9ac6-46a6-acec-e2464a258a41.png)
 
-This Library is explained in detail in [this Post](https://ignaciochiazzo.medium.com/dont-run-ruby-minitest-classess-twice-988645662cdb?source=friends_link&sk=4fafa2404be622156fd50cab519d5fd0)
+**This Library is explained in detail in [this Post](https://ignaciochiazzo.medium.com/dont-run-your-ruby-minitest-classes-twice-988645662cdb)**
 
 ### Example
 See the following case. 
@@ -48,7 +48,7 @@ Finished in 0.001218s, 3284.0724 runs/s, 0.0000 assertions/s.
 
 The reason is that `ProductTest` is a subclass of `ProductParentTest`.
 
-More details in [this Post](https://ignaciochiazzo.medium.com/dont-run-ruby-minitest-classess-twice-988645662cdb?source=friends_link&sk=4fafa2404be622156fd50cab519d5fd0)
+**More details in [this Post](https://ignaciochiazzo.medium.com/dont-run-your-ruby-minitest-classes-twice-988645662cdb)**
 
 ## Installation
 
