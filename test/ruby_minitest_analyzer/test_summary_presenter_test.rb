@@ -13,10 +13,10 @@ class TestSummaryPresenterTest < Minitest::Test
       out, "* Total duplicated tests that can be removed: 8\n" \
            "* Total classes with duplicated tests: 2 \n\n" \
            "Classes that run the tests multiple times: \n\n" \
-           "CLASS NAME      | CLASS_TEST_METHODS_COUNT | CLASS_DESCENDANT_COUNT | CLASS          \n" \
-           "----------------|--------------------------|------------------------|----------------\n" \
-           "GrandParentTest | 1                        | 4                      | GrandParentTest\n" \
-           "Parent1Test     | 2                        | 2                      | Parent1Test    \n" \
+           "CLASS NAME      | CLASS_TEST_METHODS_COUNT | CLASS_DESCENDANT_COUNT | EXTRA_TESTS_EXECUTIONS_COUNT | CLASS          \n" \
+           "----------------|--------------------------|------------------------|------------------------------|----------------\n" \
+           "GrandParentTest | 1                        | 4                      | 4                            | GrandParentTest\n" \
+           "Parent1Test     | 2                        | 2                      | 4                            | Parent1Test    \n" \
            "\n\n"
     )
   end

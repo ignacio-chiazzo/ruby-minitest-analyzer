@@ -32,6 +32,7 @@ class TestSummaryPresenter
       { 'Class Name': ->(s) { demodulize_class(s.klass) } },
       { class_test_methods_count: ->(s) { s.runnable_tests_count } },
       'class_descendant_count',
+      'extra_tests_executions_count',
       Class: ->(s) { s.klass }
     )
   end
