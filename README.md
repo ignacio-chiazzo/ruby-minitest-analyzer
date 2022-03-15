@@ -1,10 +1,13 @@
-Minitest uses Ruby classes making the tests to run twice if it uses subclasses. 
-**Ruby Minitests analyzer detects tests that run multiple times.** In some cases, we want them to run them twice, but most of the time, we don't. 
+# Ruby Minitest Analyzer
 
-![2](https://user-images.githubusercontent.com/11672878/158103231-c5f884d7-24d5-4043-85e8-4ba51f962027.png)
+Minitest uses Ruby classes, **if a Minitest class inherits from another class, it will also inherit its methods causing Minitest to run the parent's tests twice.**
+In some cases, we want them to run them twice, but most of the time, we don't.  
 
-This Library is explained in details in [this Post](https://ignaciochiazzo.medium.com/dont-run-ruby-minitest-classess-twice-988645662cdb?source=friends_link&sk=4fafa2404be622156fd50cab519d5fd0)
+Ruby Minitest Analyzer will analyze your Minitest classes and detect any duplicate test run.
 
+![Untitled-2022-03-13-1106](https://user-images.githubusercontent.com/11672878/158284753-08ea962f-9ac6-46a6-acec-e2464a258a41.png)
+
+This Library is explained in detail in [this Post](https://ignaciochiazzo.medium.com/dont-run-ruby-minitest-classess-twice-988645662cdb?source=friends_link&sk=4fafa2404be622156fd50cab519d5fd0)
 
 ### Example
 See the following case. 
@@ -45,6 +48,8 @@ Finished in 0.001218s, 3284.0724 runs/s, 0.0000 assertions/s.
 
 The reason is that `ProductTest` is a subclass of `ProductParentTest`.
 
+More details in [this Post](https://ignaciochiazzo.medium.com/dont-run-ruby-minitest-classess-twice-988645662cdb?source=friends_link&sk=4fafa2404be622156fd50cab519d5fd0)
+
 ## Installation
 
 Add this line to your Application's Gemfile:
@@ -63,19 +68,17 @@ Or install it yourself as:
 
 ### How can I run the analyzer on my Application?
 
-Run `ruby minitest.rb` it will analyze the tests within the project that uses Minitests.
-1) Create a new test file.
-2) Create a method `require_all_test_files` that will require all the tests files, including
-the files needed to run the tests e.g. `test_helper.rb`.
+1) Create a new test `minitest_analyzer.rb` file.
+2) Create a method `require_all_test_files` requiring all the tests files, including
+the files needed to run the tests e.g. `test_helper.rb`. See the example below.
 3) Call `::RubyMinitestAnalyzer.run!(nil)`.
 4) Run the file.
 
-
 <details>
-<summary>Example:</summary>
+<summary> minitest_analyzer.rb example:</summary>
   
 ```ruby
-  # I placed this file within /test
+# I placed this file within /test
   
 require_relative 'test_helper.rb'
 require 'ruby_minitest_analyzer' 
@@ -84,6 +87,7 @@ def require_all_files
   # require test_helpers
   require_relative("test_helper")
 
+  # require tests classes
   Dir[File.expand_path('**/*.rb', __dir__)].each do |f|
     require_relative(f)
   end
@@ -106,16 +110,16 @@ Analyzing!
 
 Analyzed a total of 6 classes.
       
-* Total duplicated tests that can be removed: 10
+* Total duplicated tests that can be removed: 12
 * Total classes with duplicated tests: 3 
       
 Classes that run the tests multiple times: 
 
-CLASS NAME      | CLASS_TEST_METHODS_COUNT | CLASS_DESCENDANT_COUNT | CLASS          
-----------------|--------------------------|------------------------|----------------
-GrandParentTest | 1                        | 5                      | GrandParentTest
-Parent1Test     | 1                        | 2                      | Parent1Test    
-Parent2Test     | 3                        | 1                      | Parent2Test    
+CLASS NAME      | CLASS_TEST_METHODS_COUNT | CLASS_DESCENDANT_COUNT | EXTRA_TESTS_EXECUTIONS_COUNT 
+----------------|--------------------------|------------------------|------------------------------
+GrandParentTest | 1                        | 5                      | 5                            
+Parent1Test     | 2                        | 2                      | 4                            
+Parent2Test     | 3                        | 1                      | 3                            
 
 Finished!  
 ```
