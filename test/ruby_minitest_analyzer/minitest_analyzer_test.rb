@@ -27,9 +27,9 @@ class MinitestAnalyzerTest < Minitest::Test
     assert_summary(
       summary: parent_1_test_summary,
       class_descendant_count: 2,
-      extra_tests_executions_count: 2,
+      extra_tests_executions_count: 4,
       klass: Parent1Test,
-      runnable_tests_count: 1,
+      runnable_tests_count: 2,
       subclasses: [Child1Test, Child2Test]
     )
 
