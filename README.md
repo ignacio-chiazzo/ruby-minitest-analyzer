@@ -48,6 +48,8 @@ Finished in 0.001218s, 3284.0724 runs/s, 0.0000 assertions/s.
 
 The reason is that `ProductTest` is a subclass of `ProductParentTest`.
 
+Note: I added a [new cop to Rubocop](https://github.com/Shopify/shopify/pull/337363) that checks for duplicated run tests. The cop has some limitations that this library solves. For example, in the cop, the classes should be in the same file. 
+
 **More details in [this Post](https://ignaciochiazzo.medium.com/dont-run-your-ruby-minitest-classes-twice-988645662cdb)**
 
 ## Installation
