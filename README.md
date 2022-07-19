@@ -52,6 +52,29 @@ Note: I added a [new cop to Rubocop](https://github.com/rubocop/rubocop-minitest
 
 **More details in [this Post](https://ignaciochiazzo.medium.com/dont-run-your-ruby-minitest-classes-twice-988645662cdb)**
 
+Other scenarios were it doesn't create duplicated tests:
+
+<details><summary>When the class is under a parent Minitest class but it doesn't inherit from it.</summary>
+
+```ruby
+class A < Minitest
+  test xyz do 
+  end
+
+  class B < Minitest
+    test bar do 
+    end
+  end
+
+  class C < Minitest
+    test foo do 
+    end
+  end
+end
+```
+
+</details>
+
 ## Installation
 
 Add this line to your Application's Gemfile:
